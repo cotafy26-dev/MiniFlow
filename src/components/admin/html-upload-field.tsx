@@ -70,7 +70,7 @@ export function HtmlUploadField({
       <Textarea
         id={id}
         rows={8}
-        className="font-mono text-xs"
+        className="max-h-64 overflow-y-auto font-mono text-xs"
         value={value}
         onChange={(event) => onChange(event.target.value)}
       />
