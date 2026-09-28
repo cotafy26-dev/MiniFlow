@@ -57,12 +57,17 @@ export function MiniAppFilesUploadForm({
     setError(null);
     setIsSubmitting(true);
 
-    const formData = new FormData();
-    for (const { path, file } of selected) formData.append(path, file);
+    try {
+      const formData = new FormData();
+      for (const { path, file } of selected) formData.append(path, file);
 
-    const result = await uploadMiniAppFilesAction(miniAppId, formData);
-    setIsSubmitting(false);
-    if (result?.error) setError(result.error);
+      const result = await uploadMiniAppFilesAction(miniAppId, formData);
+      if (result?.error) setError(result.error);
+    } catch {
+      setError("Falha ao enviar os arquivos. Verifique sua conexão e tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
