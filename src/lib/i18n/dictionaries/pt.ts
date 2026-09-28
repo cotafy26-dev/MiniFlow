@@ -8,7 +8,8 @@
  */
 export const pt = {
   app: {
-    name: "MiniFlow",
+    name: "MedFlow System",
+    shortName: "MedFlow",
     tagline: "Um lugar para reunir todos os seus mini-aplicativos em uma única experiência.",
   },
   auth: {
@@ -26,7 +27,7 @@ export const pt = {
     },
     register: {
       title: "Criar conta",
-      subtitle: "Comece seu espaço no MiniFlow.",
+      subtitle: "Comece seu espaço no MedFlow System.",
       fullName: "Nome completo",
       tenantName: "Nome do seu negócio ou espaço",
       email: "E-mail",

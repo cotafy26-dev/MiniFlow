@@ -23,7 +23,7 @@ serwist.addEventListeners();
 self.addEventListener("push", (event: any) => {
   const data = event.data?.json() ?? {};
   event.waitUntil(
-    self.registration.showNotification(data.title ?? "MiniFlow", {
+    self.registration.showNotification(data.title ?? "MedFlow System", {
       body: data.body,
       icon: "/icon.png",
       data: { url: data.url ?? "/" },

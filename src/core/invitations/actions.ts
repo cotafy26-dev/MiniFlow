@@ -28,7 +28,7 @@ export async function createInvitationAction(
   if (hasAccount) {
     return {
       error:
-        "Este e-mail já possui uma conta no MiniFlow. Suporte a múltiplos espaços por conta ainda não está disponível.",
+        "Este e-mail já possui uma conta no MedFlow System. Suporte a múltiplos espaços por conta ainda não está disponível.",
     };
   }
 
@@ -64,7 +64,7 @@ export async function createInvitationAction(
   const emailResult = await sendEmail({
     to: email,
     subject: `Você foi convidado para ${ctx.tenant.name}`,
-    html: `<p>${ctx.profile.full_name} convidou você para participar de <strong>${ctx.tenant.name}</strong> no MiniFlow.</p><p><a href="${inviteUrl}">Clique aqui para aceitar o convite</a></p><p>Este link expira em 7 dias.</p>`,
+    html: `<p>${ctx.profile.full_name} convidou você para participar de <strong>${ctx.tenant.name}</strong> no MedFlow System.</p><p><a href="${inviteUrl}">Clique aqui para aceitar o convite</a></p><p>Este link expira em 7 dias.</p>`,
   });
   if (emailResult.error) console.error("Failed to send invitation email:", emailResult.error);
 

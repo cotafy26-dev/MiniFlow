@@ -6,7 +6,7 @@ export interface SendEmailResult {
   error?: string;
 }
 
-const EMAIL_FROM = process.env.EMAIL_FROM ?? "MiniFlow <onboarding@resend.dev>";
+const EMAIL_FROM = process.env.EMAIL_FROM ?? "MedFlow System <onboarding@resend.dev>";
 
 /**
  * Lazily instantiated so a missing RESEND_API_KEY never crashes module

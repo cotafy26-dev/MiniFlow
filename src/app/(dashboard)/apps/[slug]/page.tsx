@@ -88,7 +88,7 @@ export default async function MiniAppDetailPage({
         // Admin-authored HTML, never trusted: rendered via srcDoc inside a
         // fully sandboxed iframe (sandbox="" disables scripts, forms,
         // popups and same-origin access) so it can't touch the viewer's
-        // MiniFlow session even if it contains a malicious <script>.
+        // MedFlow System session even if it contains a malicious <script>.
         <iframe
           srcDoc={app.content_html}
           sandbox=""

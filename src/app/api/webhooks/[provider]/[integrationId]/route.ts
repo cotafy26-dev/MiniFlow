@@ -17,7 +17,7 @@ async function logWebhook(
 /**
  * Receives purchase/subscription events from payment providers. No
  * authenticated session exists here (this is called by an external
- * platform, not a MiniFlow user), so it uses createAdminClient()
+ * platform, not a MedFlow System user), so it uses createAdminClient()
  * throughout — the integration id in the URL is what identifies the
  * tenant, and the provider-specific adapter is what actually verifies the
  * caller is who it claims to be (Hotmart: the `hottok` shared secret).

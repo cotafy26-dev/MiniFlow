@@ -1,4 +1,4 @@
-# MiniFlow
+# MedFlow System
 
 Hub de mini-apps + área de membros — SaaS multi-tenant. Fase 1: projeto,
 banco, autenticação, usuários, roles, multi-tenant e o shell do dashboard.

@@ -40,7 +40,7 @@ export async function sendWelcomeEmailIfNeeded(userId: string): Promise<void> {
     supabase.from("tenants").select("name").eq("id", profile.default_tenant_id).maybeSingle(),
   ]);
 
-  const vars = { fullName: profile.full_name, tenantName: tenant?.name ?? "MiniFlow" };
+  const vars = { fullName: profile.full_name, tenantName: tenant?.name ?? "MedFlow System" };
   const subject = renderTemplate(settings?.welcome_email_subject || DEFAULT_SUBJECT, vars);
   const body = renderTemplate(settings?.welcome_email_body || DEFAULT_BODY, vars);
 

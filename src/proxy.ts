@@ -14,7 +14,7 @@ export async function proxy(request: NextRequest) {
   // Sites are public, unauthenticated content served on their own
   // subdomain — this check must happen before updateSession()/the auth
   // pipeline below, since a site visitor has nothing to do with a
-  // MiniFlow session at all.
+  // MedFlow System session at all.
   const baseDomain = process.env.APPS_BASE_DOMAIN;
   const host = request.headers.get("host") ?? "";
   if (baseDomain && host !== baseDomain && host.endsWith(`.${baseDomain}`)) {

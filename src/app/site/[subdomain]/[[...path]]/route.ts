@@ -10,7 +10,7 @@ function notFound() {
 // Reached via proxy.ts's subdomain rewrite (or directly). Serves raw
 // files uploaded through /admin/apps/[id]/files for a mini_app of type
 // 'hosted_site' — no session, no Next.js page shell — a site visitor has
-// nothing to do with a MiniFlow login. File bytes come straight out of
+// nothing to do with a MedFlow System login. File bytes come straight out of
 // the private "mini-app-files" Storage bucket via the service-role
 // client, which is safe here since this whole route is server-only and
 // never exposes that client to a visitor's browser.
