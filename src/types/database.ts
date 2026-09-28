@@ -1517,6 +1517,50 @@ export type Database = {
         }
         Relationships: []
       }
+      sites: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          html_content: string | null
+          id: string
+          is_active: boolean
+          name: string
+          subdomain: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          html_content?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          subdomain: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          html_content?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          subdomain?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sites_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       support_ticket_messages: {
         Row: {
           author_id: string
@@ -1855,6 +1899,13 @@ export type Database = {
           role_name: string
           status: string
           tenant_name: string
+        }[]
+      }
+      get_site_by_subdomain: {
+        Args: { p_subdomain: string }
+        Returns: {
+          html_content: string
+          is_active: boolean
         }[]
       }
       get_tenant_profiles: {

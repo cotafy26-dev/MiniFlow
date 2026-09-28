@@ -1,13 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { HtmlUploadField } from "@/components/admin/html-upload-field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -52,9 +52,6 @@ export function MiniAppForm({
 }) {
   const [formError, setFormError] = useState<string | null>(null);
 
-  const [showHtmlPreview, setShowHtmlPreview] = useState(false);
-  const htmlFileInputRef = useRef<HTMLInputElement>(null);
-
   const {
     register,
     control,
@@ -81,29 +78,11 @@ export function MiniAppForm({
   });
 
   const selectedType = watch("type");
-  const contentHtml = watch("contentHtml");
 
   function handleNameBlur() {
     const slug = getValues("slug");
     if (slug) return;
     setValue("slug", slugify(getValues("name") ?? ""));
-  }
-
-  function handleHtmlFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setValue("contentHtml", reader.result, { shouldDirty: true, shouldValidate: true });
-      } else {
-        toast.error(pt.miniApps.form.uploadHtmlFileError);
-      }
-    };
-    reader.onerror = () => toast.error(pt.miniApps.form.uploadHtmlFileError);
-    reader.readAsText(file);
   }
 
   async function onSubmit(values: MiniAppValues) {
@@ -228,57 +207,20 @@ export function MiniAppForm({
       </Field>
 
       {selectedType === "internal_page" && (
-        <Field>
-          <FieldLabel htmlFor="contentHtml">{pt.miniApps.form.contentHtml}</FieldLabel>
-
-          <input
-            ref={htmlFileInputRef}
-            type="file"
-            accept=".html,text/html"
-            className="hidden"
-            onChange={handleHtmlFileChange}
-          />
-          <div className="flex flex-wrap items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="w-fit"
-              onClick={() => htmlFileInputRef.current?.click()}
-            >
-              {pt.miniApps.form.uploadHtmlFile}
-            </Button>
-            <p className="text-xs text-muted-foreground">{pt.miniApps.form.uploadHtmlFileHint}</p>
-          </div>
-
-          <Textarea
-            id="contentHtml"
-            rows={8}
-            className="font-mono text-xs"
-            {...register("contentHtml")}
-          />
-          <p className="text-xs text-muted-foreground">{pt.miniApps.form.contentHtmlHint}</p>
-          <FieldError errors={[errors.contentHtml]} />
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="w-fit"
-            onClick={() => setShowHtmlPreview((prev) => !prev)}
-          >
-            {pt.miniApps.form.previewHtml}
-          </Button>
-
-          {showHtmlPreview && (
-            <iframe
-              srcDoc={contentHtml || ""}
-              sandbox=""
-              className="h-64 w-full rounded-lg border bg-white"
-              title="Preview"
+        <Controller
+          name="contentHtml"
+          control={control}
+          render={({ field }) => (
+            <HtmlUploadField
+              id="contentHtml"
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              label={pt.miniApps.form.contentHtml}
+              hint={pt.miniApps.form.contentHtmlHint}
+              error={errors.contentHtml?.message}
             />
           )}
-        </Field>
+        />
       )}
 
       {selectedType === "ai_tool" && (

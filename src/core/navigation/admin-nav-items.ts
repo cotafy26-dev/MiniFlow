@@ -3,6 +3,7 @@ import {
   BarChart3,
   CreditCard,
   GalleryHorizontal,
+  Globe,
   GraduationCap,
   Grid2X2,
   LifeBuoy,
@@ -110,5 +111,12 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     href: "/admin/analytics",
     icon: BarChart3,
     permissions: [PERMISSIONS.ACTIVITY_LOGS_VIEW],
+  },
+  {
+    key: "sites",
+    label: pt.admin.sections.sites,
+    href: "/admin/sites",
+    icon: Globe,
+    permissions: [PERMISSIONS.APPS_MANAGE],
   },
 ];

@@ -11,6 +11,19 @@ const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/apps", "/feed", "/communit
 const AUTH_ONLY_WHEN_LOGGED_OUT = ["/login", "/register", "/forgot-password"];
 
 export async function proxy(request: NextRequest) {
+  // Sites are public, unauthenticated content served on their own
+  // subdomain — this check must happen before updateSession()/the auth
+  // pipeline below, since a site visitor has nothing to do with a
+  // MiniFlow session at all.
+  const baseDomain = process.env.APPS_BASE_DOMAIN;
+  const host = request.headers.get("host") ?? "";
+  if (baseDomain && host !== baseDomain && host.endsWith(`.${baseDomain}`)) {
+    const subdomain = host.slice(0, -(baseDomain.length + 1));
+    if (subdomain && subdomain !== "www") {
+      return NextResponse.rewrite(new URL(`/site/${subdomain}`, request.url));
+    }
+  }
+
   const { response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
 

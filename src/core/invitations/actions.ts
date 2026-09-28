@@ -57,13 +57,16 @@ export async function createInvitationAction(
 
   if (error) return { error: error.message };
 
+  // The invitation itself is already created and usable (the admin can
+  // share inviteUrl manually) — never let a transient email failure
+  // block that, same discipline as sendWelcomeEmailIfNeeded/push sends.
   const inviteUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"}/invite/${token}`;
   const emailResult = await sendEmail({
     to: email,
     subject: `Você foi convidado para ${ctx.tenant.name}`,
     html: `<p>${ctx.profile.full_name} convidou você para participar de <strong>${ctx.tenant.name}</strong> no MiniFlow.</p><p><a href="${inviteUrl}">Clique aqui para aceitar o convite</a></p><p>Este link expira em 7 dias.</p>`,
   });
-  if (emailResult.error) return { error: emailResult.error };
+  if (emailResult.error) console.error("Failed to send invitation email:", emailResult.error);
 
   await logActivity({
     tenantId: ctx.tenant.id,
