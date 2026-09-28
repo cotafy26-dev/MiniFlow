@@ -1,0 +1,9 @@
+-- MiniFlow — local dev seed.
+-- Runs after all migrations on `supabase db reset`. Roles/permissions are
+-- already inserted by 0004_roles_permissions.sql — this file is
+-- intentionally left mostly empty for Fase 1 (no fake tenants/users: the
+-- product spec forbids treating fixture data as a real implementation).
+--
+-- To get a working local account, sign up through /register in the running
+-- app, then promote it to Super Admin with:
+--   node scripts/create-super-admin.mjs <email>
