@@ -32,6 +32,8 @@ export default async function MiniAppDetailPage({
   const app = await getMiniAppBySlug(ctx.tenant.id, slug);
   if (!app) notFound();
 
+  const baseDomain = process.env.APPS_BASE_DOMAIN || null;
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3">
@@ -68,6 +70,20 @@ export default async function MiniAppDetailPage({
         </div>
       ) : app.type === "ai_tool" ? (
         <AiToolChat miniAppId={app.id} />
+      ) : app.type === "hosted_site" && app.subdomain ? (
+        baseDomain ? (
+          <Button
+            render={
+              <Link href={`https://${app.subdomain}.${baseDomain}`} target="_blank" rel="noopener noreferrer" />
+            }
+            className="w-fit"
+          >
+            <ExternalLink className="size-4" />
+            {pt.apps.detail.openSiteButton}
+          </Button>
+        ) : (
+          <p className="text-sm text-muted-foreground">{pt.apps.detail.siteDomainMissing}</p>
+        )
       ) : app.type === "internal_page" && app.content_html ? (
         // Admin-authored HTML, never trusted: rendered via srcDoc inside a
         // fully sandboxed iframe (sandbox="" disables scripts, forms,

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Pencil } from "lucide-react";
+import { Folder, Pencil } from "lucide-react";
 
 import { MiniAppDeleteButton } from "@/components/admin/mini-app-delete-button";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +43,11 @@ export function MiniAppList({ apps }: { apps: MiniAppWithRelations[] }) {
             </p>
           </div>
 
+          {app.type === "hosted_site" && (
+            <Button variant="ghost" size="icon-sm" render={<Link href={`/admin/apps/${app.id}/files`} />}>
+              <Folder className="size-4" />
+            </Button>
+          )}
           <Button variant="ghost" size="icon-sm" render={<Link href={`/admin/apps/${app.id}/edit`} />}>
             <Pencil className="size-4" />
           </Button>

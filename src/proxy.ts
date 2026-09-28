@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
   if (baseDomain && host !== baseDomain && host.endsWith(`.${baseDomain}`)) {
     const subdomain = host.slice(0, -(baseDomain.length + 1));
     if (subdomain && subdomain !== "www") {
-      return NextResponse.rewrite(new URL(`/site/${subdomain}`, request.url));
+      return NextResponse.rewrite(new URL(`/site/${subdomain}${request.nextUrl.pathname}`, request.url));
     }
   }
 
@@ -41,8 +41,11 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
+// Deliberately does NOT exclude image extensions the way a typical
+// matcher would — Sites (src/app/site/[subdomain]/[[...path]]) serves
+// arbitrary uploaded assets (images included) through this same proxy,
+// so a blanket "*.png/*.jpg/..." exclusion would make every image on a
+// hosted site 404 before the subdomain rewrite above ever ran.
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest).*)"],
 };

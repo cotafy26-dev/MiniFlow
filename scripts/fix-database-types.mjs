@@ -22,7 +22,15 @@ const enumRules = [
   {
     table: "mini_apps",
     column: "type",
-    values: ["internal_app", "internal_page", "external_app", "iframe", "pwa", "ai_tool"],
+    values: [
+      "internal_app",
+      "internal_page",
+      "external_app",
+      "iframe",
+      "pwa",
+      "ai_tool",
+      "hosted_site",
+    ],
   },
   { table: "mini_apps", column: "status", values: ["draft", "published", "archived"] },
   { table: "products", column: "status", values: ["draft", "published", "archived"] },

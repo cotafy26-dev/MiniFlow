@@ -7,6 +7,7 @@ export const miniAppTypeValues = [
   "iframe",
   "pwa",
   "ai_tool",
+  "hosted_site",
 ] as const;
 
 export const miniAppStatusValues = ["draft", "published", "archived"] as const;
@@ -16,6 +17,15 @@ const slugField = z
   .string()
   .min(2, "Informe pelo menos 2 caracteres.")
   .regex(slugRegex, "Use apenas letras minúsculas, números e hífens.");
+
+const RESERVED_SUBDOMAINS = new Set(["www", "app", "admin", "api", "mail", "ftp", "smtp", "root"]);
+
+const subdomainField = z
+  .string()
+  .min(3, "Mínimo de 3 caracteres.")
+  .max(63, "Máximo de 63 caracteres.")
+  .regex(/^[a-z0-9](?:[a-z0-9-]{1,61}[a-z0-9])?$/, "Use apenas letras minúsculas, números e hífens.")
+  .refine((value) => !RESERVED_SUBDOMAINS.has(value), "Este subdomínio é reservado.");
 
 export const miniAppSchema = z
   .object({
@@ -31,6 +41,7 @@ export const miniAppSchema = z
       .optional()
       .or(z.literal("")),
     aiSystemPrompt: z.string().max(4000, "Máximo de 4.000 caracteres.").optional().or(z.literal("")),
+    subdomain: z.string().optional().or(z.literal("")),
     type: z.enum(miniAppTypeValues),
     status: z.enum(miniAppStatusValues),
     categoryId: z.uuid().nullable().optional(),
@@ -51,6 +62,17 @@ export const miniAppSchema = z
         path: ["url"],
         message: "Informe a URL de destino para publicar este tipo de mini-app.",
       });
+    }
+
+    if (data.type === "hosted_site") {
+      const result = subdomainField.safeParse(data.subdomain);
+      if (!result.success) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["subdomain"],
+          message: result.error.issues[0]?.message ?? "Informe um subdomínio válido.",
+        });
+      }
     }
   });
 

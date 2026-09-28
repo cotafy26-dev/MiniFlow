@@ -17,10 +17,12 @@ export default async function NewMiniAppPage() {
     supabase.from("roles").select("id, key, name").order("name"),
   ]);
 
+  const baseDomain = process.env.APPS_BASE_DOMAIN || null;
+
   return (
     <div className="flex max-w-lg flex-col gap-5">
       <h2 className="text-lg font-semibold">{pt.miniApps.admin.newApp}</h2>
-      <MiniAppForm mode="create" categories={categories} roles={roles ?? []} />
+      <MiniAppForm mode="create" categories={categories} roles={roles ?? []} baseDomain={baseDomain} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import type { Database } from "@/types/database";
 
 export type MiniAppCategory = Database["public"]["Tables"]["mini_app_categories"]["Row"];
 export type MiniApp = Database["public"]["Tables"]["mini_apps"]["Row"];
+export type MiniAppFile = Database["public"]["Tables"]["mini_app_files"]["Row"];
 
 export interface MiniAppWithRelations extends MiniApp {
   categoryName: string | null;
@@ -75,6 +76,18 @@ export async function getMiniAppBySlug(tenantId: string, slug: string): Promise<
     .maybeSingle();
 
   return data;
+}
+
+export async function getMiniAppFiles(tenantId: string, miniAppId: string): Promise<MiniAppFile[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("mini_app_files")
+    .select("*")
+    .eq("tenant_id", tenantId)
+    .eq("mini_app_id", miniAppId)
+    .order("path");
+
+  return data ?? [];
 }
 
 export async function getFeaturedMiniApps(tenantId: string, limit = 6): Promise<MiniApp[]> {

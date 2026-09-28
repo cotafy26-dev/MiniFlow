@@ -828,6 +828,54 @@ export type Database = {
           },
         ]
       }
+      mini_app_files: {
+        Row: {
+          content_type: string
+          created_at: string
+          id: string
+          mini_app_id: string
+          path: string
+          size_bytes: number
+          storage_path: string
+          tenant_id: string
+        }
+        Insert: {
+          content_type: string
+          created_at?: string
+          id?: string
+          mini_app_id: string
+          path: string
+          size_bytes: number
+          storage_path: string
+          tenant_id: string
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          id?: string
+          mini_app_id?: string
+          path?: string
+          size_bytes?: number
+          storage_path?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mini_app_files_mini_app_id_fkey"
+            columns: ["mini_app_id"]
+            isOneToOne: false
+            referencedRelation: "mini_apps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mini_app_files_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mini_app_visible_roles: {
         Row: {
           mini_app_id: string
@@ -876,8 +924,9 @@ export type Database = {
           slug: string
           sort_order: number
           status: "draft" | "published" | "archived"
+          subdomain: string | null
           tenant_id: string
-          type: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool"
+          type: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at: string
           url: string | null
         }
@@ -898,8 +947,9 @@ export type Database = {
           slug: string
           sort_order?: number
           status?: "draft" | "published" | "archived"
+          subdomain?: string | null
           tenant_id: string
-          type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool"
+          type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at?: string
           url?: string | null
         }
@@ -920,8 +970,9 @@ export type Database = {
           slug?: string
           sort_order?: number
           status?: "draft" | "published" | "archived"
+          subdomain?: string | null
           tenant_id?: string
-          type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool"
+          type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at?: string
           url?: string | null
         }
@@ -1517,50 +1568,6 @@ export type Database = {
         }
         Relationships: []
       }
-      sites: {
-        Row: {
-          created_at: string
-          created_by: string | null
-          html_content: string | null
-          id: string
-          is_active: boolean
-          name: string
-          subdomain: string
-          tenant_id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          created_by?: string | null
-          html_content?: string | null
-          id?: string
-          is_active?: boolean
-          name: string
-          subdomain: string
-          tenant_id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          created_by?: string | null
-          html_content?: string | null
-          id?: string
-          is_active?: boolean
-          name?: string
-          subdomain?: string
-          tenant_id?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "sites_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: false
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       support_ticket_messages: {
         Row: {
           author_id: string
@@ -1891,6 +1898,13 @@ export type Database = {
       }
       current_tenant_id: { Args: never; Returns: string }
       email_has_account: { Args: { p_email: string }; Returns: boolean }
+      get_hosted_site_by_subdomain: {
+        Args: { p_subdomain: string }
+        Returns: {
+          id: string
+          is_active: boolean
+        }[]
+      }
       get_invitation_by_token: {
         Args: { p_token: string }
         Returns: {
@@ -1899,13 +1913,6 @@ export type Database = {
           role_name: string
           status: string
           tenant_name: string
-        }[]
-      }
-      get_site_by_subdomain: {
-        Args: { p_subdomain: string }
-        Returns: {
-          html_content: string
-          is_active: boolean
         }[]
       }
       get_tenant_profiles: {
