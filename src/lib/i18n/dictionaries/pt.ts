@@ -762,6 +762,7 @@ export const pt = {
       priceLabel: "R$ 397,97",
       priceSuffix: "/ano",
       priceHint: "Pagamento anual, fora da plataforma — combine com a gente pelo formulário abaixo.",
+      videoTitle: "Veja o MedFlow System em ação",
       ctaButton: "Quero assinar",
       featuresTitle: "O que está incluso",
       features: [

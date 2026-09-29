@@ -22,6 +22,22 @@ export default function HomePage() {
         </Button>
       </div>
 
+      <div className="flex flex-col gap-3">
+        <h2 className="text-center text-sm font-semibold text-muted-foreground">{t.videoTitle}</h2>
+        <div className="overflow-hidden rounded-xl border shadow-sm">
+          <video
+            src="/video/demo.mp4"
+            poster="/video/demo-poster.png"
+            className="w-full"
+            controls
+            muted
+            autoPlay
+            loop
+            playsInline
+          />
+        </div>
+      </div>
+
       <div className="grid gap-10 md:grid-cols-2 md:items-start">
         <div className="flex flex-col gap-6">
           <Badge variant="secondary" className="w-fit">
