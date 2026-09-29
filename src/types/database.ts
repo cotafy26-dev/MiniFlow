@@ -1119,6 +1119,36 @@ export type Database = {
         }
         Relationships: []
       }
+      platform_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          status: "new" | "contacted" | "converted" | "discarded"
+          whatsapp: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          status?: "new" | "contacted" | "converted" | "discarded"
+          whatsapp: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          status?: "new" | "contacted" | "converted" | "discarded"
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       post_shares: {
         Row: {
           created_at: string

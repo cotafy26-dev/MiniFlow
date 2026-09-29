@@ -68,6 +68,11 @@ const enumRules = [
   },
   { table: "support_tickets", column: "status", values: ["open", "in_progress", "resolved", "closed"] },
   { table: "invitations", column: "status", values: ["pending", "accepted", "revoked", "expired"] },
+  {
+    table: "platform_leads",
+    column: "status",
+    values: ["new", "contacted", "converted", "discarded"],
+  },
 ];
 
 function findTableBlock(source, table) {
