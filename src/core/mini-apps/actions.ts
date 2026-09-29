@@ -166,7 +166,7 @@ export async function createMiniAppAction(values: MiniAppValues): Promise<MiniAp
       url: values.url || null,
       content_html: values.contentHtml || null,
       ai_system_prompt: values.aiSystemPrompt || null,
-      subdomain: values.subdomain || null,
+      site_path: values.sitePath || null,
       type: values.type,
       status: values.status,
       is_active: values.isActive,
@@ -179,7 +179,7 @@ export async function createMiniAppAction(values: MiniAppValues): Promise<MiniAp
     .single();
 
   if (error) {
-    return { error: error.code === "23505" ? "Este subdomínio já está em uso." : error.message };
+    return { error: error.code === "23505" ? "Este endereço já está em uso." : error.message };
   }
 
   await syncVisibleRoles(data.id, values.visibleToRoleIds);
@@ -213,7 +213,7 @@ export async function updateMiniAppAction(
       url: values.url || null,
       content_html: values.contentHtml || null,
       ai_system_prompt: values.aiSystemPrompt || null,
-      subdomain: values.subdomain || null,
+      site_path: values.sitePath || null,
       type: values.type,
       status: values.status,
       is_active: values.isActive,
@@ -225,7 +225,7 @@ export async function updateMiniAppAction(
     .eq("tenant_id", ctx.tenant.id);
 
   if (error) {
-    return { error: error.code === "23505" ? "Este subdomínio já está em uso." : error.message };
+    return { error: error.code === "23505" ? "Este endereço já está em uso." : error.message };
   }
 
   await syncVisibleRoles(id, values.visibleToRoleIds);

@@ -18,14 +18,14 @@ const slugField = z
   .min(2, "Informe pelo menos 2 caracteres.")
   .regex(slugRegex, "Use apenas letras minúsculas, números e hífens.");
 
-const RESERVED_SUBDOMAINS = new Set(["www", "app", "admin", "api", "mail", "ftp", "smtp", "root"]);
+const RESERVED_SITE_PATHS = new Set(["www", "app", "admin", "api", "mail", "ftp", "smtp", "root"]);
 
-const subdomainField = z
+const sitePathField = z
   .string()
   .min(3, "Mínimo de 3 caracteres.")
   .max(63, "Máximo de 63 caracteres.")
   .regex(/^[a-z0-9](?:[a-z0-9-]{1,61}[a-z0-9])?$/, "Use apenas letras minúsculas, números e hífens.")
-  .refine((value) => !RESERVED_SUBDOMAINS.has(value), "Este subdomínio é reservado.");
+  .refine((value) => !RESERVED_SITE_PATHS.has(value), "Este endereço é reservado.");
 
 export const miniAppSchema = z
   .object({
@@ -41,7 +41,7 @@ export const miniAppSchema = z
       .optional()
       .or(z.literal("")),
     aiSystemPrompt: z.string().max(4000, "Máximo de 4.000 caracteres.").optional().or(z.literal("")),
-    subdomain: z.string().optional().or(z.literal("")),
+    sitePath: z.string().optional().or(z.literal("")),
     type: z.enum(miniAppTypeValues),
     status: z.enum(miniAppStatusValues),
     categoryId: z.uuid().nullable().optional(),
@@ -65,12 +65,12 @@ export const miniAppSchema = z
     }
 
     if (data.type === "hosted_site") {
-      const result = subdomainField.safeParse(data.subdomain);
+      const result = sitePathField.safeParse(data.sitePath);
       if (!result.success) {
         ctx.addIssue({
           code: "custom",
-          path: ["subdomain"],
-          message: result.error.issues[0]?.message ?? "Informe um subdomínio válido.",
+          path: ["sitePath"],
+          message: result.error.issues[0]?.message ?? "Informe um endereço válido.",
         });
       }
     }

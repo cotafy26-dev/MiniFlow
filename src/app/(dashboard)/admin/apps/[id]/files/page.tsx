@@ -17,15 +17,12 @@ export default async function MiniAppFilesPage({ params }: { params: Promise<{ i
   if (!app || app.type !== "hosted_site") notFound();
 
   const files = await getMiniAppFiles(ctx.tenant.id, id);
-  const baseDomain = process.env.APPS_BASE_DOMAIN || null;
 
   return (
     <div className="flex max-w-lg flex-col gap-5">
       <div>
         <h2 className="text-lg font-semibold">{app.name}</h2>
-        <p className="text-sm text-muted-foreground">
-          {baseDomain ? `https://${app.subdomain}.${baseDomain}` : pt.miniApps.form.urlPreviewMissingDomain}
-        </p>
+        <p className="text-sm text-muted-foreground">/site/{app.site_path}</p>
       </div>
       <MiniAppFilesUploadForm miniAppId={app.id} initialFiles={files} />
     </div>

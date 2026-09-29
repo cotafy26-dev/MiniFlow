@@ -921,10 +921,10 @@ export type Database = {
           is_featured: boolean
           name: string
           required_plan: string
+          site_path: string | null
           slug: string
           sort_order: number
           status: "draft" | "published" | "archived"
-          subdomain: string | null
           tenant_id: string
           type: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at: string
@@ -944,10 +944,10 @@ export type Database = {
           is_featured?: boolean
           name: string
           required_plan?: string
+          site_path?: string | null
           slug: string
           sort_order?: number
           status?: "draft" | "published" | "archived"
-          subdomain?: string | null
           tenant_id: string
           type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at?: string
@@ -967,10 +967,10 @@ export type Database = {
           is_featured?: boolean
           name?: string
           required_plan?: string
+          site_path?: string | null
           slug?: string
           sort_order?: number
           status?: "draft" | "published" | "archived"
-          subdomain?: string | null
           tenant_id?: string
           type?: "internal_app" | "internal_page" | "external_app" | "iframe" | "pwa" | "ai_tool" | "hosted_site"
           updated_at?: string
@@ -1898,8 +1898,8 @@ export type Database = {
       }
       current_tenant_id: { Args: never; Returns: string }
       email_has_account: { Args: { p_email: string }; Returns: boolean }
-      get_hosted_site_by_subdomain: {
-        Args: { p_subdomain: string }
+      get_hosted_site_by_path: {
+        Args: { p_site_path: string }
         Returns: {
           id: string
           is_active: boolean

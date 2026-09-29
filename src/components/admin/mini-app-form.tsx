@@ -42,14 +42,12 @@ export function MiniAppForm({
   miniAppId,
   categories,
   roles,
-  baseDomain,
   defaultValues,
 }: {
   mode: "create" | "edit";
   miniAppId?: string;
   categories: { id: string; name: string }[];
   roles: { id: string; key: string; name: string }[];
-  baseDomain: string | null;
   defaultValues?: Partial<MiniAppValues>;
 }) {
   const [formError, setFormError] = useState<string | null>(null);
@@ -75,20 +73,20 @@ export function MiniAppForm({
       categoryId: null,
       contentHtml: "",
       aiSystemPrompt: "",
-      subdomain: "",
+      sitePath: "",
       ...defaultValues,
     },
   });
 
   const selectedType = watch("type");
-  const subdomain = watch("subdomain");
+  const sitePath = watch("sitePath");
 
   function handleNameBlur() {
     const slug = getValues("slug");
     if (!slug) setValue("slug", slugify(getValues("name") ?? ""));
 
-    if (getValues("type") === "hosted_site" && !getValues("subdomain")) {
-      setValue("subdomain", slugify(getValues("name") ?? ""));
+    if (getValues("type") === "hosted_site" && !getValues("sitePath")) {
+      setValue("sitePath", slugify(getValues("name") ?? ""));
     }
   }
 
@@ -246,16 +244,15 @@ export function MiniAppForm({
 
       {selectedType === "hosted_site" && (
         <Field>
-          <FieldLabel htmlFor="subdomain">{pt.miniApps.form.subdomain}</FieldLabel>
-          <Input id="subdomain" {...register("subdomain")} />
-          <p className="text-xs text-muted-foreground">{pt.miniApps.form.subdomainHint}</p>
-          {subdomain && (
+          <FieldLabel htmlFor="sitePath">{pt.miniApps.form.sitePath}</FieldLabel>
+          <Input id="sitePath" {...register("sitePath")} />
+          <p className="text-xs text-muted-foreground">{pt.miniApps.form.sitePathHint}</p>
+          {sitePath && (
             <p className="text-xs text-muted-foreground">
-              {pt.miniApps.form.urlPreview}:{" "}
-              {baseDomain ? `https://${subdomain}.${baseDomain}` : pt.miniApps.form.urlPreviewMissingDomain}
+              {pt.miniApps.form.urlPreview}: /site/{sitePath}
             </p>
           )}
-          <FieldError errors={[errors.subdomain]} />
+          <FieldError errors={[errors.sitePath]} />
         </Field>
       )}
 

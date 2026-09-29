@@ -27,8 +27,6 @@ export default async function EditMiniAppPage({
 
   if (!app) notFound();
 
-  const baseDomain = process.env.APPS_BASE_DOMAIN || null;
-
   return (
     <div className="flex max-w-lg flex-col gap-5">
       <h2 className="text-lg font-semibold">{app.name}</h2>
@@ -37,7 +35,6 @@ export default async function EditMiniAppPage({
         miniAppId={app.id}
         categories={categories}
         roles={roles ?? []}
-        baseDomain={baseDomain}
         defaultValues={{
           name: app.name,
           slug: app.slug,
@@ -47,7 +44,7 @@ export default async function EditMiniAppPage({
           url: app.url ?? "",
           contentHtml: app.content_html ?? "",
           aiSystemPrompt: app.ai_system_prompt ?? "",
-          subdomain: app.subdomain ?? "",
+          sitePath: app.site_path ?? "",
           type: app.type,
           status: app.status,
           categoryId: app.category_id,

@@ -128,11 +128,9 @@ export const pt = {
       aiSystemPrompt: "Prompt do assistente",
       aiSystemPromptPlaceholder: "Você é um tutor do curso X. Responda de forma breve e didática.",
       aiSystemPromptHint: "Instruções de personalidade/contexto enviadas ao modelo antes de cada conversa.",
-      subdomain: "Subdomínio",
-      subdomainHint: "Só letras minúsculas, números e hífens.",
+      sitePath: "Endereço do site",
+      sitePathHint: "Só letras minúsculas, números e hífens.",
       urlPreview: "Endereço final",
-      urlPreviewMissingDomain:
-        "APPS_BASE_DOMAIN ainda não está configurado — configure a variável de ambiente quando tiver um domínio.",
       type: "Tipo",
       status: "Status",
       category: "Categoria",
@@ -203,7 +201,6 @@ export const pt = {
     detail: {
       openExternalButton: "Abrir em nova aba",
       openSiteButton: "Abrir site",
-      siteDomainMissing: "Este site ainda não está disponível — o domínio da plataforma está sendo configurado.",
       comingSoonTitle: "Em construção",
       comingSoonBody: "Esse mini-app ainda não tem uma ferramenta própria disponível por aqui.",
     },

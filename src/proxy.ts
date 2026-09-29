@@ -11,19 +11,6 @@ const PROTECTED_PREFIXES = ["/dashboard", "/admin", "/apps", "/feed", "/communit
 const AUTH_ONLY_WHEN_LOGGED_OUT = ["/login", "/register", "/forgot-password"];
 
 export async function proxy(request: NextRequest) {
-  // Sites are public, unauthenticated content served on their own
-  // subdomain — this check must happen before updateSession()/the auth
-  // pipeline below, since a site visitor has nothing to do with a
-  // MedFlow System session at all.
-  const baseDomain = process.env.APPS_BASE_DOMAIN;
-  const host = request.headers.get("host") ?? "";
-  if (baseDomain && host !== baseDomain && host.endsWith(`.${baseDomain}`)) {
-    const subdomain = host.slice(0, -(baseDomain.length + 1));
-    if (subdomain && subdomain !== "www") {
-      return NextResponse.rewrite(new URL(`/site/${subdomain}${request.nextUrl.pathname}`, request.url));
-    }
-  }
-
   const { response, user } = await updateSession(request);
   const { pathname } = request.nextUrl;
 
@@ -41,11 +28,10 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
-// Deliberately does NOT exclude image extensions the way a typical
-// matcher would — Sites (src/app/site/[subdomain]/[[...path]]) serves
-// arbitrary uploaded assets (images included) through this same proxy,
-// so a blanket "*.png/*.jpg/..." exclusion would make every image on a
-// hosted site 404 before the subdomain rewrite above ever ran.
+// /site/* (hosted mini-apps, served by path — src/app/site/[sitePath]) is
+// excluded here, same as _next/static: a site visitor has nothing to do
+// with a MedFlow System session and shouldn't pay for the Supabase
+// cookie-refresh this proxy does for every other route.
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|site/).*)"],
 };
