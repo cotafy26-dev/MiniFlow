@@ -9,8 +9,8 @@ export interface LeadActionResult {
 }
 
 /**
- * Public, unauthenticated: reached from /planos by a visitor with no
- * account. Always runs through the service-role client — there is no
+ * Public, unauthenticated: reached from the home page by a visitor with
+ * no account. Always runs through the service-role client — there is no
  * tenant context here to scope an RLS-respecting insert to.
  */
 export async function createLeadAction(values: LeadValues): Promise<LeadActionResult> {

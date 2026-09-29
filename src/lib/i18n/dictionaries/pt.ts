@@ -786,7 +786,7 @@ export const pt = {
   },
   leads: {
     title: "Interessados",
-    subtitle: "Quem preencheu o formulário de vendas em /planos.",
+    subtitle: "Quem preencheu o formulário de vendas na página inicial.",
     empty: "Nenhum interessado ainda.",
     whatsapp: "WhatsApp",
     message: "Mensagem",
